@@ -23,20 +23,33 @@ class Index(Resource):
         return "Hello world"
 
 
-class UsersData(Resource):
-    def get(self):
-        users = User.query.all()
+# class UsersData(Resource):
+#     def get(self):
+#         users = User.query.all()
 
-        # create user schema for serializing
-        user_schema = UserSchema(many=True)
+#         # create user schema for serializing
+#         user_schema = UserSchema(many=True)
 
-        # get json data
-        data = user_schema.dump(users)
+#         # get json data
+#         data = user_schema.dump(users)
 
-        # return json from db
-        return data
+#         # return json from db
+#         return data
 
 
 class Matrix(Resource):
     def get(self):
         return jsonify(WRAPPER.search_movie_by_name("matrix"))
+
+class UserData(Resource):
+    def get(self, username):
+        user = User.query.filter(username=username)
+
+        # create user schema for serializing
+        user_schema = UserSchema(many=True)
+
+        # get json data
+        data = user_schema.dump(user)
+
+        # return json from db
+        return data
