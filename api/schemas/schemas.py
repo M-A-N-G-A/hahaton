@@ -14,3 +14,14 @@ class UserSchema(Schema):
     description = fields.Str()	 
     accuracy = fields.Str()
     # role = fields.Str()
+
+class PostSchema(Schema):
+
+    # Schema parameters.
+    content = fields.Str()
+    media = fields.Str()
+    date_posted = fields.Str()	 
+    user_id = fields.Str()	 
+    liked = fields.Str()	 
+    comments = fields.Str()
+    notifs = fields.Str()
