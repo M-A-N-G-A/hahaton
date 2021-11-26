@@ -1,6 +1,7 @@
 import os
 from flask import Flask
 from flask import jsonify
+from flask_migrate import Migrate
 
 from api.config.config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
 from api.config.routes import generate_routes
@@ -31,8 +32,9 @@ def create_app():
         # create all tables
         db.create_all()
 
-        ## Fill some data for tests
-        # create_test_data()
+    # Fill some data for tests
+    create_test_data()
+    migrate = Migrate(app, db)
 
     return app
 

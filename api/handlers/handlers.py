@@ -43,7 +43,7 @@ class Matrix(Resource):
 
 class UserData(Resource):
     def get(self, username):
-        user = User.query.filter(username=username)
+        user = User.query.filter_by(username=username)
 
         # create user schema for serializing
         user_schema = UserSchema(many=True)
@@ -52,4 +52,5 @@ class UserData(Resource):
         data = user_schema.dump(user)
 
         # return json from db
+        print(data)
         return data

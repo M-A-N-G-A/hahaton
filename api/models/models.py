@@ -27,6 +27,11 @@ class User(db.Model):
     posts = db.relationship("Post", backref="author", lazy=True)
     comments = db.relationship("Comment", backref="author", lazy=True)
 
+    role = db.Column(db.String(10), nullable=False, default="Investor")
+    description = db.Column(db.String(100), nullable=True)
+    accuracy = db.Column(db.Integer, nullable=False, default=0)
+    email = db.Column(db.String(32), nullable=False)
+
     follows = db.relationship(
         "User",
         secondary=followers,
