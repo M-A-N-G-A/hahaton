@@ -2,6 +2,7 @@ import random
 from datetime import datetime
 from api.database.database import db
 
+import timeago
 
 followers = db.Table(
     "followers",
