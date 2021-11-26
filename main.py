@@ -33,7 +33,7 @@ def create_app():
         db.create_all()
 
     # Fill some data for tests
-    create_test_data()
+    # create_test_data()
     migrate = Migrate(app, db)
 
     return app

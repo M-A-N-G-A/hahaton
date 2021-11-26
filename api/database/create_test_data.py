@@ -4,26 +4,27 @@ from api.models.models import User, Post, Comment, Notif
 
 def create_test_data():
 
-    ######## USER ########
-    user = User.query.filter_by(username="investor").first()
+    # ######## USER ########
+    # user = User.query.filter_by(username="investor").first()
 
-    if user is None:
-        user = User(
-            username="investor",
-            password="investor",
-            accuracy=99,
-            email="investor@investor.com",
-        )
-        db.session.add(user)
-        db.session.commit()
+    # if user is None:
+    #     user = User(
+    #         username="investor",
+    #         password="investor",
+    #         accuracy=99,
+    #         email="investor@investor.com",
+    #     )
+    #     db.session.add(user)
+    #     db.session.commit()
 
     # ######## POST ########
     # post = Post.query.filter_by(pid="1").first()
+    # user = User.query.filter_by(username="investor").first()
 
-    # if post is None:
-    #     post = Post(content="Test Post", media="Test Media", user_id=1)
-    #     db.session.add(post)
-    #     db.session.commit()
+    if post is None:
+        post = Post(content="Test Post", media="Test Media", user_id=user.uid)
+        db.session.add(post)
+        db.session.commit()
 
     # ######## Comment ########
     # comment = Comment.query.filter_by(cid="1").first()

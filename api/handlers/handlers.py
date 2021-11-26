@@ -57,7 +57,8 @@ class UserData(Resource):
 
 class PostData(Resource):
     def get(self, username):
-        posts = Post.query.filter_by(username=username)
+        user = User.query.filter_by(username=username).first()
+        posts = Post.query.filter_by(user_id=user.uid)
 
         # create user schema for serializing
         post_schema = PostSchema(many=True)
