@@ -10,8 +10,8 @@ import api.errors.errors as error
 
 from api.tmdb.tmdb import TMDB
 from api.database.database import db
-from api.models.models import User
-from api.schemas.schemas import UserSchema
+from api.models.models import User, Post
+from api.schemas.schemas import UserSchema, PostSchema
 
 
 WRAPPER = TMDB()
@@ -50,6 +50,20 @@ class UserData(Resource):
 
         # get json data
         data = user_schema.dump(user)
+
+        # return json from db
+        print(data)
+        return data
+
+class PostData(Resource):
+    def get(self, username):
+        posts = Post.query.filter_by(username=username)
+
+        # create user schema for serializing
+        post_schema = PostSchema(many=True)
+
+        # get json data
+        data = post_schema.dump(posts)
 
         # return json from db
         print(data)
