@@ -3,7 +3,7 @@
 
 from flask_restful import Api
 
-from api.handlers.handlers import Index, UsersData, Matrix
+from api.handlers.handlers import Index, UserData, Matrix
 
 
 def generate_routes(app):
@@ -12,5 +12,6 @@ def generate_routes(app):
     api = Api(app)
 
     api.add_resource(Index, "/")
-    api.add_resource(UsersData, "/users")
-    api.add_resource(Matrix, "/matrix")
+    api.add_resource(UserData, "/api/v1/users/<string:username>")
+    #api.add_resource(Matrix, "/matrix")
+    # api.add_resource(UserData, "/api/v1/users/<string:username>")
