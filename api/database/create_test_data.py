@@ -4,10 +4,14 @@ from api.models.models import User, Post, Comment, Notif
 
 def create_test_data():
 
-    ######## USER ########
-    # user = User.query.filter_by(username="investor").first()
+    # ######## USER ########
+    # users = User.query.all()
+    # for user in users:
+    #     user.image_file = '/img/default.png'
+    #     db.session.add(user)
+    #     db.session.commit()
 
-    # for i in range(6,10):
+    # # for i in range(6,10):
 
     #     user = User(
     #         username=f"investorqual{i}",
@@ -23,19 +27,19 @@ def create_test_data():
 
     # ######## POST ########
     # post = Post.query.filter_by(pid="1").first()
-    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-    mollit anim id est laborum."""
+    # text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    # sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    # Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+    # nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+    # reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    # Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+    # mollit anim id est laborum."""
 
-    users = User.query.all()
-    for user in users:
-        post = Post(content=text, media="Test Media", user_id=user.uid)
-        db.session.add(post)
-        db.session.commit()
+    # users = User.query.all()
+    # for user in users:
+    #     post = Post(content=text, media="Test Media", user_id=user.uid)
+    #     db.session.add(post)
+    #     db.session.commit()
 
     # ######## Comment ########
     # comment = Comment.query.filter_by(cid="1").first()
@@ -52,3 +56,4 @@ def create_test_data():
     #     notif = Notif(msg="Test Notif", post_id=1, for_uid=1, author="Test Author")
     #     db.session.add(notif)
     #     db.session.commit()
+    pass
