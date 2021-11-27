@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 
 from api.config.config import SQLALCHEMY_DATABASE_URI, SQLALCHEMY_TRACK_MODIFICATIONS
 from api.config.routes import generate_routes
-from api.database.create_test_data import create_test_data
+# from api.database.create_test_data import create_test_data
 from api.database.database import db
 
 
