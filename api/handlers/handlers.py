@@ -2,8 +2,11 @@ import logging
 from datetime import datetime
 from flask import g, request, jsonify
 from flask_restful import Resource
+from api.yahoo.finance import Stock
+from pprint import pprint
 
 import api.errors.errors as error
+
 
 
 from api.database.database import db
@@ -54,6 +57,18 @@ class PostData(Resource):
         return data
 
 
+class PostsData(Resource):
+    def get(self, username):
+        user = User.query.filter_by(username=username).first()
+        followed_posts = user.get_followed_posts()
+        # create user schema for serializing
+        post_schema = PostSchema(many=True)
+        # get json data
+        data = post_schema.dump(followed_posts)
+        # return json from db
+        return data
+
+
 class RecomendationsData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
@@ -93,3 +108,27 @@ class CommentsData(Resource):
         db.session.add(comment)
         db.session.commit()    
         return 'Комментарий добавлен', 200
+
+
+class FinanceData(Resource):
+    def get(self, username):
+        user = User.query.filter_by(username=username).first()
+        ticker_list = user.stocks.strip().split()
+        ticker_dict = {}
+        for ticker in ticker_list:
+            stock = Stock(ticker)
+            price = stock.get_current_price()
+            price_change = stock.get_price_change_percent()
+            logo = stock.get_stock_logo()
+            summary = stock.get_key_stats()
+            summary = summary['longBusinessSummary']
+            ticker_dict[ticker] = {
+                'price': price,
+                'price_change': round(price_change, 2),
+                'logo': logo,
+                'summary': summary,
+            }
+        return jsonify(ticker_dict)
+
+    def post(self):
+        pass
