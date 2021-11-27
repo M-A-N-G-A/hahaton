@@ -12,7 +12,7 @@ from api.schemas.schemas import UserSchema, PostSchema, RecomendationsSchema, Co
 
 
 class Login(Resource):
-    def post():
+    def post(self):
         content = request.json
         user = User.query.filter_by(
             username=content['username'],
