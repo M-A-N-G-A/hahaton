@@ -25,3 +25,9 @@ class PostSchema(Schema):
     liked = fields.Str()	 
     comments = fields.Str()
     notifs = fields.Str()
+
+class RecomendationsSchema(Schema):
+
+    # Schema parameters.
+    username = fields.Str()
+    image_file = fields.Str()

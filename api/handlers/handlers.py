@@ -8,13 +8,13 @@ from flask_restful import Resource
 
 import api.errors.errors as error
 
-from api.tmdb.tmdb import TMDB
+
 from api.database.database import db
 from api.models.models import User, Post
-from api.schemas.schemas import UserSchema, PostSchema
+from api.schemas.schemas import UserSchema, PostSchema, RecomendationsSchema
 
 
-WRAPPER = TMDB()
+
 
 
 class Index(Resource):
@@ -22,24 +22,6 @@ class Index(Resource):
     def get():
         return "Hello world"
 
-
-# class UsersData(Resource):
-#     def get(self):
-#         users = User.query.all()
-
-#         # create user schema for serializing
-#         user_schema = UserSchema(many=True)
-
-#         # get json data
-#         data = user_schema.dump(users)
-
-#         # return json from db
-#         return data
-
-
-class Matrix(Resource):
-    def get(self):
-        return jsonify(WRAPPER.search_movie_by_name("matrix"))
 
 class UserData(Resource):
     def get(self, username):
@@ -69,3 +51,27 @@ class PostData(Resource):
         # return json from db
         print(data)
         return data
+
+
+class RecomendationsData(Resource):
+    def get(self, username):
+        recomendations = User.get_user_suggestion(username)
+
+        # create user schema for serializing
+        recomendations_schema = RecomendationsSchema(many=True)
+
+        # get json data
+
+        data = recomendations_schema.dump(recomendations)
+
+        # return json from db
+        print(data)
+        return data
+
+    def post(self, username):
+        follow = User.is_following(username)
+        if not follow:
+            User.follow(username)
+    
+        return '', 200
+
