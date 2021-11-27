@@ -4,25 +4,36 @@ from api.models.models import User, Post, Comment, Notif
 
 def create_test_data():
 
-    # ######## USER ########
+    ######## USER ########
     # user = User.query.filter_by(username="investor").first()
 
-    # if user is None:
+    # for i in range(6,10):
+
     #     user = User(
-    #         username="investor",
-    #         password="investor",
-    #         accuracy=99,
-    #         email="investor@investor.com",
+    #         username=f"investorqual{i}",
+    #         password=f"investorqual{i}",
+    #         accuracy=i*9,
+    #         email=f"investorqual{i}@investorqual.com",
+    #         stocks="AAPL MSFT GAZP",
+    #         role="investorqual",
     #     )
+
     #     db.session.add(user)
     #     db.session.commit()
 
     # ######## POST ########
     # post = Post.query.filter_by(pid="1").first()
-    # user = User.query.filter_by(username="investor").first()
+    text = """Lorem ipsum dolor sit amet, consectetur adipiscing elit,
+    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+    nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+    mollit anim id est laborum."""
 
-    if post is None:
-        post = Post(content="Test Post", media="Test Media", user_id=user.uid)
+    users = User.query.all()
+    for user in users:
+        post = Post(content=text, media="Test Media", user_id=user.uid)
         db.session.add(post)
         db.session.commit()
 
