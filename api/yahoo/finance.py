@@ -1,4 +1,3 @@
-import json
 from pprint import pprint
 import yfinance as yf
 
@@ -32,9 +31,39 @@ class Stock:
     def get_stock_logo(self) -> str:
         return self.data["logo_url"]
 
+    def get_key_stats(self) -> dict:
+        stats: list = [
+            "previousClose",
+            "open",
+            "bid",
+            "ask",
+            "52WeekChange",
+            "volume",
+            "averageVolume",
+            "marketCap",
+            "pegRatio",
+            "ebitda",
+            "longBusinessSummary",
+        ]
+        key_stats: dict = {}
+        for stat in stats:
+            key_stats[stat] = self.data[stat]
 
-# aapl = Stock("aapl")
-# # info = aapl.get_info()
+        return key_stats
+
+    def get_data_for_graph(self) -> dict:
+        df = self.get_stock().history("1mo", "1d")["Open"]
+        history_data: dict = {}
+        for key, value in df.to_dict().items():
+            history_data[str(key.date())] = value
+
+        return history_data  # Y axis = date, X axis = value
+
+
+aapl = Stock("tsla")
+# pprint(aapl.get_info())
+# pprint(aapl.get_key_stats())
 # print(aapl.get_current_price())
 # print(aapl.get_price_change_abs())
 # print(aapl.get_stock_logo())
+# print(aapl.get_data_for_graph())
