@@ -165,9 +165,8 @@ class Post(db.Model):
     def comments_count(self):
         return len(self.comments)
 
-    def get_comments(self, limit=0):
-        if limit > 0:
-            return self.comments[-limit:]
+    def get_comments(self):
+        return self.comments[-1::-1]
 
     def get_timeago(self):
         now = datetime.now()
