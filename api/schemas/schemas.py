@@ -35,5 +35,7 @@ class RecomendationsSchema(Schema):
 class CommentsSchema(Schema):
 
     # Schema parameters.
-    username = fields.Str()
+    user_id = fields.Str()
     pid = fields.Str()
+    content = fields.Str()
+    date_posted = fields.Str()

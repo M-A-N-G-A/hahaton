@@ -63,12 +63,14 @@ class RecomendationsData(Resource):
 class CommentsData(Resource):
     def get(self, pid):
         post = Post.query.filter_by(pid=pid).first()
-        comments = post.get_comments(5)
+        comments = post.get_comments(-1)
         comments_schema = CommentsSchema(many=True)
         data = comments_schema.dump(comments)
         return data
 
     def post(self, pid):
+        print(request.json)
+        print(dir(request))
         comment = Comment()
         db.session.commit()    
         return '', 200
