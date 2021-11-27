@@ -55,7 +55,8 @@ class PostData(Resource):
 
 class RecomendationsData(Resource):
     def get(self, username):
-        recomendations = User.get_user_suggestion(username)
+        user = User.query.filter_by(username=username).first()
+        recomendations = user.get_user_suggestion()
 
         # create user schema for serializing
         recomendations_schema = RecomendationsSchema(many=True)
@@ -69,9 +70,9 @@ class RecomendationsData(Resource):
         return data
 
     def post(self, username):
-        follow = User.is_following(username)
-        if not follow:
-            User.follow(username)
-    
+        username_main='investor1'
+        user = User.query.filter_by(username=username_main).first()
+        user_following = User.query.filter_by(username=username).first()
+        user.follow(user_following)
+        db.session.commit()    
         return '', 200
-
