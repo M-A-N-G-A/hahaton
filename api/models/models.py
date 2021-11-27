@@ -23,7 +23,7 @@ class User(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(32), nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default="/static/img/default.png")
+    image_file = db.Column(db.String(20), nullable=False, default="/img/default.png")
 
     posts = db.relationship("Post", backref="author", lazy=True)
     comments = db.relationship("Comment", backref="author", lazy=True)
