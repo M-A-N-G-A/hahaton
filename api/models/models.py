@@ -23,7 +23,7 @@ class User(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(32), nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default="default.jpg")
+    image_file = db.Column(db.String(20), nullable=False, default="/static/img/default.png")
 
     posts = db.relationship("Post", backref="author", lazy=True)
     comments = db.relationship("Comment", backref="author", lazy=True)
@@ -32,6 +32,8 @@ class User(db.Model):
     description = db.Column(db.String(100), nullable=True)
     accuracy = db.Column(db.Integer, nullable=False, default=0)
     email = db.Column(db.String(32), nullable=False)
+
+    stocks = db.Column(db.String(), nullable=True)
 
     follows = db.relationship(
         "User",
