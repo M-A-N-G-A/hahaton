@@ -31,3 +31,9 @@ class RecomendationsSchema(Schema):
     # Schema parameters.
     username = fields.Str()
     image_file = fields.Str()
+
+class CommentsSchema(Schema):
+
+    # Schema parameters.
+    username = fields.Str()
+    pid = fields.Str()
