@@ -99,6 +99,6 @@ class Share:
         return self.get_data()
 
 
-# aero = Share("Аэрофлот")
-# print(aero.get_current_price())
-# print(aero.get_history())
+aero = Share("Аэрофлот")
+print(aero.get_current_price())
+print(aero.get_history())

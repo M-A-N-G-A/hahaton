@@ -60,10 +60,10 @@ class Stock:
         return history_data  # Y axis = date, X axis = value
 
 
-aapl = Stock("tsla")
+# aapl = Stock("GAZP")
 # pprint(aapl.get_info())
 # pprint(aapl.get_key_stats())
 # print(aapl.get_current_price())
-# print(aapl.get_price_change_abs())
+# print(aapl.get_price_change_percent())
 # print(aapl.get_stock_logo())
 # print(aapl.get_data_for_graph())

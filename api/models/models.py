@@ -100,6 +100,7 @@ class User(db.Model):
 
     def get_followed_posts(self):
         fw_users = [user.uid for user in self.follows.all()]
+        print(fw_users)
         fw_users.append(self.uid)  # to include my own posts
         # print(fw_users)
         fw_posts = Post.query.order_by(Post.date_posted.desc()).filter(
