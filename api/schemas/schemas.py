@@ -6,6 +6,7 @@ from marshmallow import Schema, fields
 class UserSchema(Schema):
 
     # Schema parameters.
+    user_id = fields.Str()
     username = fields.Str()
     # password = fields.Str()
     image_file = fields.Str()
