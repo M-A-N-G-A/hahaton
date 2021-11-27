@@ -1,16 +1,3 @@
-### Instagram Flask Clone
-```
-https://github.com/horowest/ig_clone
-```
-### Flask RESTful API cookiecutter
-```
-https://github.com/karec/cookiecutter-flask-restful
-```
-### Flask RESTful documentation
-```
-https://flask-restful.readthedocs.io/en/latest/
-```
-
 # Расписание хакатона
 
 ## 26 ноября 
