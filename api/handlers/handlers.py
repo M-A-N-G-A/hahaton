@@ -11,6 +11,20 @@ from api.models.models import Comment, User, Post
 from api.schemas.schemas import UserSchema, PostSchema, RecomendationsSchema, CommentsSchema
 
 
+class Login(Resource):
+    def post():
+        content = request.json
+        user = User.query.filter_by(
+            username=content['username'],
+            password=content['password'],
+        )
+        if user:
+            user_schema = UserSchema(many=True)
+            data = user_schema.dump(user)
+            return data, 200
+        return 'Неправильные логин или пароль', 401
+
+
 class Index(Resource):
     @staticmethod
     def get():
@@ -52,11 +66,11 @@ class RecomendationsData(Resource):
         return data
 
     def post(self, username):
-        username_main='investor1'
-        user = User.query.filter_by(username=username_main).first()
+        uid = request.json['user_id']
+        user = User.query.filter_by(uid=uid).first()
         user_following = User.query.filter_by(username=username).first()
         user.follow(user_following)
-        db.session.commit()    
+        db.session.commit()
         return '', 200
 
 
@@ -69,8 +83,13 @@ class CommentsData(Resource):
         return data
 
     def post(self, pid):
-        print(request.json)
-        print(dir(request))
-        comment = Comment()
+        content = request.json
+
+        comment = Comment(
+            content = content['content'],
+            post_id = pid,
+            user_id = content['user_id'],
+        )
+        db.session.add(comment)
         db.session.commit()    
-        return '', 200
+        return 'Комментарий добавлен', 200
