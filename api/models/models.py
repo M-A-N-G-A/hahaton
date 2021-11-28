@@ -1,8 +1,9 @@
-import random
-from datetime import datetime
-from api.database.database import db
-
 import timeago
+import random
+
+from datetime import datetime
+
+from api.database.database import db
 
 followers = db.Table(
     "followers",
@@ -23,7 +24,11 @@ class User(db.Model):
     uid = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(32), nullable=False)
-    image_file = db.Column(db.String(20), nullable=False, default="/img/default.png")
+    image_file = db.Column(
+        db.String(20),
+        nullable=False,
+        default="/img/default.png"
+    )
 
     posts = db.relationship("Post", backref="author", lazy=True)
     comments = db.relationship("Comment", backref="author", lazy=True)
@@ -100,9 +105,7 @@ class User(db.Model):
 
     def get_followed_posts(self):
         fw_users = [user.uid for user in self.follows.all()]
-        print(fw_users)
-        fw_users.append(self.uid)  # to include my own posts
-        # print(fw_users)
+        fw_users.append(self.uid)
         fw_posts = Post.query.order_by(Post.date_posted.desc()).filter(
             Post.user_id.in_(fw_users)
         )
@@ -119,7 +122,6 @@ class User(db.Model):
         elif len(available_users) <= 2:
             return available_users
 
-        # find sugg users
         suggs = []
         while len(suggs) < 2:
             index = random.randint(0, len(available_users) - 1)
@@ -127,11 +129,10 @@ class User(db.Model):
             if user not in suggs:
                 suggs.append(user)
 
-        # print(suggs)
         return suggs
 
     def __repr__(self):
-        return f"User('{self.username}', '{self.password}', '{self.image_file}')"
+        return f"User({self.username}, {self.password}, {self.image_file})"
 
 
 class Post(db.Model):
@@ -139,7 +140,11 @@ class Post(db.Model):
     pid = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     media = db.Column(db.String(32), nullable=True)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
     user_id = db.Column(db.Integer, db.ForeignKey("users.uid"), nullable=False)
 
     liked = db.relationship("User", secondary=likes)
@@ -183,10 +188,14 @@ class Comment(db.Model):
     content = db.Column(db.Text, nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey("posts.pid"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.uid"), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
 
     def __repr__(self):
-        return f"Comment({self.post_id}, {self.user_id}, '{self.content}', '{self.date_posted}')"
+        return f"{self.post_id}, {self.user_id}, {self.content})"
 
 
 class Notif(db.Model):
@@ -196,12 +205,21 @@ class Notif(db.Model):
     post_id = db.Column(db.Integer, db.ForeignKey("posts.pid"), nullable=False)
     for_uid = db.Column(db.Integer, db.ForeignKey("users.uid"), nullable=False)
     author = db.Column(db.String(20), nullable=False)
-    date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_posted = db.Column(
+        db.DateTime,
+        nullable=False,
+        default=datetime.utcnow
+    )
 
     @staticmethod
     def add_notif(user, post, n_type):
         notif_for = post.author.uid
-        n = Notif(for_uid=notif_for, post_id=post.pid, msg=n_type, author=user.username)
+        n = Notif(
+            for_uid=notif_for,
+            post_id=post.pid,
+            msg=n_type,
+            author=user.username,
+        )
         return n
 
     def __repr__(self):

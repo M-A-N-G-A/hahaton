@@ -1,19 +1,19 @@
-import logging
-from datetime import datetime
-from flask import g, request, jsonify
+# import logging
+# from datetime import datetime
+# import api.errors.errors as error
+# from marshmallow.utils import ensure_text_type
+from flask import request, jsonify
 from flask_restful import Resource
-from marshmallow.utils import ensure_text_type
-from api.yahoo.finance import Stock
-from pprint import pprint
-import json
-
-import api.errors.errors as error
-
-
 
 from api.database.database import db
 from api.models.models import Comment, User, Post
-from api.schemas.schemas import UserSchema, PostSchema, RecomendationsSchema, CommentsSchema
+from api.schemas.schemas import (
+    CommentsSchema,
+    PostSchema,
+    RecomendationsSchema,
+    UserSchema,
+)
+from api.yahoo.finance import Stock
 
 
 class Login(Resource):
@@ -110,12 +110,12 @@ class CommentsData(Resource):
         content = request.json
 
         comment = Comment(
-            content = content['content'],
-            post_id = id,
-            user_id = content['user_id'],
+            content=content['content'],
+            post_id=id,
+            user_id=content['user_id'],
         )
         db.session.add(comment)
-        db.session.commit()    
+        db.session.commit()
         return 'Комментарий добавлен', 200
 
     def delete(self, id):
@@ -125,7 +125,7 @@ class CommentsData(Resource):
             db.session.commit()
             return 'Комментарий удален', 200
         return 'Такого комментария не существует', 409
-    
+
     def put(self, id):
         comment_to_update = Comment.query.filter_by(cid=id).first()
         content = request.json
@@ -136,6 +136,7 @@ class CommentsData(Resource):
             db.session.commit()
             return 'Комментарий изменен', 200
         return 'Такого комментария не существует', 409
+
 
 class FinanceData(Resource):
     def get(self, username):
@@ -162,31 +163,31 @@ class FinanceData(Resource):
 
 class PostChangeDelete(Resource):
     def delete(self, pid):
-            post_to_delete = Post.query.filter_by(pid=pid).first()
-            if post_to_delete:
-                db.session.delete(post_to_delete)
-                db.session.commit()
-                return 'Пост удален', 200
-            return 'Такого поста не существует', 409
-        
-    def put(self, pid):
-            post_to_update = Post.query.filter_by(pid=pid).first()
-            content = request.json
+        post_to_delete = Post.query.filter_by(pid=pid).first()
+        if post_to_delete:
+            db.session.delete(post_to_delete)
+            db.session.commit()
+            return 'Пост удален', 200
+        return 'Такого поста не существует', 409
 
-            if post_to_update:
-                post_to_update.content = content['content']
-                db.session.add(post_to_update)
-                db.session.commit()
-                return 'Пост изменен', 200
-            return 'Такого поста не существует', 409
+    def put(self, pid):
+        post_to_update = Post.query.filter_by(pid=pid).first()
+        content = request.json
+
+        if post_to_update:
+            post_to_update.content = content['content']
+            db.session.add(post_to_update)
+            db.session.commit()
+            return 'Пост изменен', 200
+        return 'Такого поста не существует', 409
 
 
 class PostCreate(Resource):
     def post(self):
         post = Post(
-            content = request.json['content'],
-            user_id = request.json['user_id'],
-            media = request.json['media'],
+            content=request.json['content'],
+            user_id=request.json['user_id'],
+            media=request.json['media'],
         )
         db.session.add(post)
         db.session.commit()
