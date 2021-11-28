@@ -64,7 +64,7 @@ class PostData(Resource):
                 return 'Пост удален', 200
             return 'Такого поста не существует', 409
         
-    def update(self, id):
+    def put(self, id):
             post_to_update = Post.query.filter_by(pid=id).first()
             content = request.json
 
