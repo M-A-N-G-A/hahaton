@@ -53,9 +53,13 @@ class PostData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
         posts = Post.query.filter_by(user_id=user.uid)
+        user_schema = UserSchema()
         post_schema = PostSchema(many=True)
-        data = post_schema.dump(posts)
-        return data
+        user_data = user_schema.dump(user)
+        post_data = post_schema.dump(posts)
+        for post in post_data:
+            post['user_info'] = user_data
+        return post_data
 
 
 class PostsData(Resource):
