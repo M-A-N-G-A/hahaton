@@ -56,6 +56,35 @@ class PostData(Resource):
         # return json from db
         return data
 
+    def delete(self, pid):
+            post_to_delete = Post.query.filter(Post.pid==pid).first()
+            if post_to_delete:
+                db.session.delete(post_to_delete)
+                db.session.commit()
+                return 'Пост удален', 200
+            return 'Такого поста не существует', 409
+        
+    def update(self, pid):
+            post_to_update = Post.query.filter(Post.pid==pid).first()
+            content = request.json
+
+            post = Post(
+                content = content['content'],
+                post_id = pid,
+                user_id = content['user_id'],
+            )
+            if post_to_update:
+                db.session.update(
+                    user_id = content['user_id'],
+                    pid = post_id,
+                    content = content['content'],
+                    date_posted = 
+                )
+                db.session.commit()
+                return 'Пост изменен', 200
+            return 'Такого поста не существует', 409  
+
+
 
 class PostsData(Resource):
     def get(self, username):
@@ -110,6 +139,33 @@ class CommentsData(Resource):
         db.session.commit()    
         return 'Комментарий добавлен', 200
 
+    def delete(self, cid):
+        comment_to_delete = Comment.query.filter(Comment.cid==cid).first()
+        if comment_to_delete:
+            db.session.delete(comment_to_delete)
+            db.session.commit()
+            return 'Комментарий удален', 200
+        return 'Такого комментария не существует', 409
+    
+    def update(self, pid, cid):
+        comment_to_update = Comment.query.filter(Comment.cid==cid).first()
+        content = request.json
+
+        comment = Comment(
+            content = content['content'],
+            post_id = pid,
+            user_id = content['user_id'],
+        )
+        if comment_to_update:
+            db.session.update(
+                user_id = content['user_id'],
+                pid = post_id,
+                content = content['content'],
+                date_posted = 
+            )
+            db.session.commit()
+            return 'Комментарий изменен', 200
+        return 'Такого комментария не существует', 409
 
 class FinanceData(Resource):
     def get(self, username):
