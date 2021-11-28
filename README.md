@@ -8,7 +8,12 @@ python3 -m venv venv
 
 - Активируйте виртуальное окружение
 ```
-source/venv/bin/activate
+source venv/bin/activate
+```
+
+- Установите необходимые зависимости
+```
+pip install -r requirements.txt
 ```
 
 - Установите зависимости
@@ -30,9 +35,11 @@ flask run
 
 | HTTP      | Resource URL | Notes | CONTENT
 | ----------- | ----------- | ---- | -----
-| POST      | `/api/v1/login/`      | авторизация пользователя | {"username": username, "password": password}
+| POST  | `/api/v1/login/`      | авторизация пользователя | {"username": username, "password": password}
 | GET   | `/api/v1/users/<string:username>/`       | информация о пользователе **username**
 | GET   | `/api/v1/posts/<string:username>/`       | публикации пользователя **username**
+| PUT   | `/api/v1/posts/<string:username>/`       | изменить пост **pid** | {"content": content, "post_id": pid, "user_id": "user_id"}
+| DELETE| `/api/v1/posts/<string:username>/`       | удалить пост **pid** 
 | GET   | `/api/v1/followed/posts/<string:username>/`       | публикации пользователей на которых подписан **username**
 | GET   | `/api/v1/recomendations/<string:username>/`       | показать пользователю **username** рекомендованных для подписки пользователей
 | POST   | `/api/v1/recomendations/<string:username>/`       | подписать на пользователя **username** | {"user_id": uid} - uid авторизованного пользователя
