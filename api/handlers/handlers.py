@@ -173,3 +173,27 @@ class FinanceData(Resource):
 
     def post(self):
         pass
+
+
+class PostCreateChangeDelete(Resource):
+    def post(self, pid):
+        pass
+
+    def delete(self, pid):
+            post_to_delete = Post.query.filter_by(pid=pid).first()
+            if post_to_delete:
+                db.session.delete(post_to_delete)
+                db.session.commit()
+                return 'Пост удален', 200
+            return 'Такого поста не существует', 409
+        
+    def put(self, pid):
+            post_to_update = Post.query.filter_by(pid=pid).first()
+            content = request.json
+
+            if post_to_update:
+                post_to_update.content = content['content']
+                db.session.add(post_to_update)
+                db.session.commit()
+                return 'Пост изменен', 200
+            return 'Такого поста не существует', 409  
