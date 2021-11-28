@@ -6,26 +6,24 @@ from marshmallow import Schema, fields
 class UserSchema(Schema):
 
     # Schema parameters.
-    user_id = fields.Str()
+    uid = fields.Int()
     username = fields.Str()
-    # password = fields.Str()
     image_file = fields.Str()
     email = fields.Str()	 
     image_file = fields.Str()	 
     description = fields.Str()	 
-    accuracy = fields.Str()
-    # role = fields.Str()
+    accuracy = fields.Int()
 
 class PostSchema(Schema):
 
     # Schema parameters.
     content = fields.Str()
     media = fields.Str()
-    date_posted = fields.Str()	 
-    user_id = fields.Str()	 
-    liked = fields.Str()	 
-    comments = fields.Str()
-    notifs = fields.Str()
+    date_posted = fields.DateTime("iso")	 
+    user_id = fields.Int()	 
+    liked = fields.List(fields.String(), required=True)	 
+    comments = fields.List(fields.String(), required=True)
+    notifs = fields.List(fields.String(), required=True)
 
 class RecomendationsSchema(Schema):
 
@@ -36,7 +34,7 @@ class RecomendationsSchema(Schema):
 class CommentsSchema(Schema):
 
     # Schema parameters.
-    user_id = fields.Str()
-    pid = fields.Str()
+    user_id = fields.Int()
+    pid = fields.Int()
     content = fields.Str()
-    date_posted = fields.Str()
+    date_posted = fields.DateTime("iso")

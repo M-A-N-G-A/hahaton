@@ -36,13 +36,13 @@ class Index(Resource):
 
 class UserData(Resource):
     def get(self, username):
-        user = User.query.filter_by(username=username)
+        user = User.query.filter_by(username=username).first()
         # create user schema for serializing
-        user_schema = UserSchema(many=True)
+        user_schema = UserSchema()
         # get json data
         data = user_schema.dump(user)
         # return json from db
-        return data
+        return jsonify(data)
 
 
 class PostData(Resource):
@@ -65,8 +65,9 @@ class PostsData(Resource):
         post_schema = PostSchema(many=True)
         # get json data
         data = post_schema.dump(followed_posts)
+        print(type(jsonify(data)))
         # return json from db
-        return data
+        return jsonify(data)
 
 
 class RecomendationsData(Resource):
@@ -114,7 +115,7 @@ class FinanceData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
         ticker_list = user.stocks.strip().split()
-        ticker_dict = {}
+        data = []
         for ticker in ticker_list:
             stock = Stock(ticker)
             price = stock.get_current_price()
@@ -122,13 +123,15 @@ class FinanceData(Resource):
             logo = stock.get_stock_logo()
             summary = stock.get_key_stats()
             summary = summary['longBusinessSummary']
-            ticker_dict[ticker] = {
+            ticker_dict = {
+                'ticker': ticker,
                 'price': price,
                 'price_change': round(price_change, 2),
                 'logo': logo,
                 'summary': summary,
             }
-        return jsonify(ticker_dict)
+            data.append(ticker_dict)
+        return jsonify(data)
 
     def post(self):
         pass
