@@ -1,25 +1,40 @@
-# Расписание хакатона
+# M.A.N.G.A
+### Установка и запуск приложения
+- Скачайте репозиторий
+- В директории `hahaton` создайте виртуальное окружение
+```
+python3 -m venv venv
+```
 
-## 26 ноября 
-- 17:50 — Сбор участников на платформе Zoom
-- 18:00 — Церемония открытия
-- 18:10 — Выступление партнеров хакатона
-- 19:10 — Постановка задачи и Q&A с экспертами
-- 19:40 — Тренинг по подходу Dive, Create, Impact
-- 20:10 — Завершение первого дня
+- Активируйте виртуальное окружение
+```
+source/venv/bin/activate
+```
 
-## 27 ноября 
-- 11:00 — Чекпойнт с ментором
-- 15:00 — Карьерная консультация с HR
-- 19:00 — Чекпойнт с ментором
+- Задайте переменную окружения FLASK_APP
+```
+export FLASK_APP=main.py
+```
 
-## 28 ноября 
-- 11:00 — Чекпойнт с ментором
-- до 12:50 — Отправка кода
-- до 14:50 — Отправка презентаций
-- 15:15 — Защита решений 
-- 16:45 — Перерыв
-- 17:00 — Защита решений 
-- 18:30 — Подведение итогов и нетворкинг
-- 19:00 — Церемония награждения
-- 19:30 — Обратная связь от судей
+- Запустите приложение
+```
+flask run
+```
+
+### Доступные api-handlers
+
+| HTTP      | Resource URL | Notes | POST DATA
+| ----------- | ----------- | ---- | -----
+| POST      | `/api/v1/login`      | авторизация пользователя | {"username": username, "password": password}
+| GET   | `/api/v1/users/<string:username>`       | информация о пользователе **username**
+| GET   | `/api/v1/posts/<string:username>`       | публикации пользователя **username**
+| GET   | `/api/v1/followed/posts/<string:username>`       | публикации пользователей на которых подписан **username**
+| GET   | `/api/v1/recomendations/<string:username>`       | показать пользователю **username** рекомендованных для подписки пользователей
+| POST   | `/api/v1/recomendations/<string:username>`       | подписать на пользователя **username** | {"user_id": uid} - uid авторизованного пользователя
+| POST   | `/api/v1/posts/<string:username>`       |
+| POST   | `/api/v1/posts/<string:username>`       |
+| POST   | `/api/v1/posts/<string:username>`       |
+
+
+    api.add_resource(CommentsData, "/api/v1/comments/<integer:pid>")
+    api.add_resource(FinanceData, "/api/v1/tickers/<string:username>")
