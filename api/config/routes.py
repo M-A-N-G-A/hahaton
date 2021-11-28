@@ -21,4 +21,4 @@ def generate_routes(app):
     api.add_resource(CommentsData, "/api/v1/comments/<int:id>/")
     api.add_resource(Login, "/api/v1/login")
     api.add_resource(FinanceData, "/api/v1/tickers/<string:username>/")
-    api.add_resource(FinanceData, "/api/v1/post/<int:pid>/")
+    api.add_resource(PostCreateChangeDelete, "/api/v1/post/<int:pid>/")
