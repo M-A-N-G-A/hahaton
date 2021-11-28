@@ -16,11 +16,6 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-- Установите зависимости
-```
-pip install -r requirements.txt
-```
-
 - Задайте переменную окружения FLASK_APP
 ```
 export FLASK_APP=main.py
