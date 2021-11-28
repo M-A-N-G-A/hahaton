@@ -56,29 +56,24 @@ class PostData(Resource):
         # return json from db
         return data
 
-    def delete(self, pid):
-            post_to_delete = Post.query.filter(Post.pid==pid).first()
+    def delete(self, id):
+            post_to_delete = Post.query.filter_by(pid=id).first()
             if post_to_delete:
                 db.session.delete(post_to_delete)
                 db.session.commit()
                 return 'Пост удален', 200
             return 'Такого поста не существует', 409
         
-    def update(self, pid):
-            post_to_update = Post.query.filter(Post.pid==pid).first()
+    def update(self, id):
+            post_to_update = Post.query.filter_by(pid=id).first()
             content = request.json
 
-            post = Post(
-                content = content['content'],
-                post_id = pid,
-                user_id = content['user_id'],
-            )
             if post_to_update:
-                db.session.update(
-                    user_id = content['user_id'],
-                    pid = pid,
-                    content = content['content'],
+                post = Post(
+                    pid=id,
+                    content=content['content'],
                 )
+                db.session.add(post)
                 db.session.commit()
                 return 'Пост изменен', 200
             return 'Такого поста не существует', 409  
@@ -119,48 +114,43 @@ class RecomendationsData(Resource):
 
 
 class CommentsData(Resource):
-    def get(self, pid):
-        post = Post.query.filter_by(pid=pid).first()
+    def get(self, id):
+        post = Post.query.filter_by(pid=id).first()
         comments = post.get_comments()
         comments_schema = CommentsSchema(many=True)
         data = comments_schema.dump(comments)
         return data
 
-    def post(self, pid):
+    def post(self, id):
         content = request.json
 
         comment = Comment(
             content = content['content'],
-            post_id = pid,
+            post_id = id,
             user_id = content['user_id'],
         )
         db.session.add(comment)
         db.session.commit()    
         return 'Комментарий добавлен', 200
 
-    def delete(self, cid):
-        comment_to_delete = Comment.query.filter(Comment.cid==cid).first()
+    def delete(self, id):
+        comment_to_delete = Comment.query.filter_by(cid=id).first()
         if comment_to_delete:
             db.session.delete(comment_to_delete)
             db.session.commit()
             return 'Комментарий удален', 200
         return 'Такого комментария не существует', 409
     
-    def put(self, pid, cid):
-        comment_to_update = Comment.query.filter(Comment.cid==cid).first()
+    def put(self, id):
+        comment_to_update = Comment.query.filter_by(cid=id).first()
         content = request.json
 
-        comment = Comment(
-            content = content['content'],
-            post_id = pid,
-            user_id = content['user_id'],
-        )
         if comment_to_update:
-            db.session.update(
-                user_id = content['user_id'],
-                pid = cid,
+            comment = Comment(
+                cid=id,
                 content = content['content'],
             )
+            db.session.add(comment)
             db.session.commit()
             return 'Комментарий изменен', 200
         return 'Такого комментария не существует', 409
