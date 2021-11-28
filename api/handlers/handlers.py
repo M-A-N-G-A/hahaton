@@ -61,10 +61,7 @@ class PostsData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
         followed_posts = user.get_followed_posts()
-        # user_ids = [post.user_id for post in followed_posts]
         post_schema = PostSchema(many=True)
-        # users = User.query.filter(User.uid.in_(user_ids))
-        # user_schema = UserSchema(many=True)
         post_data = post_schema.dump(followed_posts)
         for i in range(len(post_data)):
             user_info = {
@@ -76,10 +73,6 @@ class PostsData(Resource):
                     'accuracy': followed_posts[i].author.accuracy,
                 }
             post_data[i]['user_info'] = user_info
-        # for post in post_data:
-        #     print(post)
-        # user_data = user_schema.dump(users)
-        pprint(post_data)
         return jsonify(post_data)
 
 
