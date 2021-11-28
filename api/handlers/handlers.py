@@ -76,9 +76,8 @@ class PostData(Resource):
             if post_to_update:
                 db.session.update(
                     user_id = content['user_id'],
-                    pid = post_id,
+                    pid = pid,
                     content = content['content'],
-                    date_posted = 
                 )
                 db.session.commit()
                 return 'Пост изменен', 200
@@ -147,7 +146,7 @@ class CommentsData(Resource):
             return 'Комментарий удален', 200
         return 'Такого комментария не существует', 409
     
-    def update(self, pid, cid):
+    def put(self, pid, cid):
         comment_to_update = Comment.query.filter(Comment.cid==cid).first()
         content = request.json
 
@@ -159,9 +158,8 @@ class CommentsData(Resource):
         if comment_to_update:
             db.session.update(
                 user_id = content['user_id'],
-                pid = post_id,
+                pid = cid,
                 content = content['content'],
-                date_posted = 
             )
             db.session.commit()
             return 'Комментарий изменен', 200
