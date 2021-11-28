@@ -10,7 +10,6 @@ class UserSchema(Schema):
     username = fields.Str()
     image_file = fields.Str()
     email = fields.Str()	 
-    image_file = fields.Str()	 
     description = fields.Str()	 
     accuracy = fields.Int()
 

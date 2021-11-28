@@ -151,9 +151,6 @@ class FinanceData(Resource):
             data.append(ticker_dict)
         return jsonify(data)
 
-    def post(self):
-        pass
-
 
 class PostChangeDelete(Resource):
     def delete(self, pid):
@@ -181,6 +178,8 @@ class PostCreate(Resource):
         post = Post(
             content = request.json['content'],
             user_id = request.json['user_id'],
+            media = request.json['media'],
         )
         db.session.add(post)
         db.session.commit()
+        return '', 200
