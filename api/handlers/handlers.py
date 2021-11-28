@@ -31,17 +31,20 @@ class Login(Resource):
 class Index(Resource):
     @staticmethod
     def get():
-        return "Hello world"
+        content = {
+            'Проект': 'Проект подготовлен для Hack&Change 2021',
+            'Трэк': 'Мобильная разработка',
+            'Разработчики API': 'M.A.N.G.A',
+            'URL': 'https://github.com/M-A-N-G-A',
+        }
+        return content
 
 
 class UserData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
-        # create user schema for serializing
         user_schema = UserSchema()
-        # get json data
         data = user_schema.dump(user)
-        # return json from db
         return jsonify(data)
 
 
@@ -49,11 +52,8 @@ class PostData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
         posts = Post.query.filter_by(user_id=user.uid)
-        # create user schema for serializing
         post_schema = PostSchema(many=True)
-        # get json data
         data = post_schema.dump(posts)
-        # return json from db
         return data
 
 
@@ -61,24 +61,34 @@ class PostsData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
         followed_posts = user.get_followed_posts()
-        # create user schema for serializing
+        # user_ids = [post.user_id for post in followed_posts]
         post_schema = PostSchema(many=True)
-        # get json data
-        data = post_schema.dump(followed_posts)
-        print(type(jsonify(data)))
-        # return json from db
-        return jsonify(data)
+        # users = User.query.filter(User.uid.in_(user_ids))
+        # user_schema = UserSchema(many=True)
+        post_data = post_schema.dump(followed_posts)
+        for i in range(len(post_data)):
+            user_info = {
+                    'uid': followed_posts[i].author.uid,
+                    'username': followed_posts[i].author.username,
+                    'image_file': followed_posts[i].author.image_file,
+                    'email': followed_posts[i].author.email,
+                    'description': followed_posts[i].author.description,
+                    'accuracy': followed_posts[i].author.accuracy,
+                }
+            post_data[i]['user_info'] = user_info
+        # for post in post_data:
+        #     print(post)
+        # user_data = user_schema.dump(users)
+        pprint(post_data)
+        return jsonify(post_data)
 
 
 class RecomendationsData(Resource):
     def get(self, username):
         user = User.query.filter_by(username=username).first()
         recomendations = user.get_user_suggestion()
-        # create user schema for serializing
         recomendations_schema = RecomendationsSchema(many=True)
-        # get json data
         data = recomendations_schema.dump(recomendations)
-        # return json from db
         return data
 
     def post(self, username):
