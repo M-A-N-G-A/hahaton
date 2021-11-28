@@ -69,11 +69,8 @@ class PostData(Resource):
             content = request.json
 
             if post_to_update:
-                post = Post(
-                    pid=id,
-                    content=content['content'],
-                )
-                db.session.add(post)
+                post_to_update.content = content['content']
+                db.session.add(post_to_update)
                 db.session.commit()
                 return 'Пост изменен', 200
             return 'Такого поста не существует', 409  
@@ -146,11 +143,8 @@ class CommentsData(Resource):
         content = request.json
 
         if comment_to_update:
-            comment = Comment(
-                cid=id,
-                content = content['content'],
-            )
-            db.session.add(comment)
+            comment_to_update.content = content['content']
+            db.session.add(comment_to_update)
             db.session.commit()
             return 'Комментарий изменен', 200
         return 'Такого комментария не существует', 409
