@@ -25,16 +25,12 @@ flask run
 
 | HTTP      | Resource URL | Notes | POST DATA
 | ----------- | ----------- | ---- | -----
-| POST      | `/api/v1/login`      | авторизация пользователя | {"username": username, "password": password}
-| GET   | `/api/v1/users/<string:username>`       | информация о пользователе **username**
-| GET   | `/api/v1/posts/<string:username>`       | публикации пользователя **username**
-| GET   | `/api/v1/followed/posts/<string:username>`       | публикации пользователей на которых подписан **username**
-| GET   | `/api/v1/recomendations/<string:username>`       | показать пользователю **username** рекомендованных для подписки пользователей
-| POST   | `/api/v1/recomendations/<string:username>`       | подписать на пользователя **username** | {"user_id": uid} - uid авторизованного пользователя
-| POST   | `/api/v1/posts/<string:username>`       |
-| POST   | `/api/v1/posts/<string:username>`       |
-| POST   | `/api/v1/posts/<string:username>`       |
-
-
-    api.add_resource(CommentsData, "/api/v1/comments/<integer:pid>")
-    api.add_resource(FinanceData, "/api/v1/tickers/<string:username>")
+| POST      | `/api/v1/login/`      | авторизация пользователя | {"username": username, "password": password}
+| GET   | `/api/v1/users/<string:username>/`       | информация о пользователе **username**
+| GET   | `/api/v1/posts/<string:username>/`       | публикации пользователя **username**
+| GET   | `/api/v1/followed/posts/<string:username>/`       | публикации пользователей на которых подписан **username**
+| GET   | `/api/v1/recomendations/<string:username>/`       | показать пользователю **username** рекомендованных для подписки пользователей
+| POST   | `/api/v1/recomendations/<string:username>/`       | подписать на пользователя **username** | {"user_id": uid} - uid авторизованного пользователя
+| GET   | `/api/v1/comments/<int:pid>/`       | показать комментарии к посту **pid**
+| POST   | `/api/v1/comments/<int:pid>/`       | добавить комментарий к посту **pid** | {"content": content, "post_id": pid, "user_id": "user_id"}
+| GET   | `/api/v1/tickers/<string:username>/`       | показать информацию по финансовым инструментам пользователя **username**
