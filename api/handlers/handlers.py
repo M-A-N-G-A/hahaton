@@ -56,26 +56,6 @@ class PostData(Resource):
         # return json from db
         return data
 
-    def delete(self, id):
-            post_to_delete = Post.query.filter_by(pid=id).first()
-            if post_to_delete:
-                db.session.delete(post_to_delete)
-                db.session.commit()
-                return 'Пост удален', 200
-            return 'Такого поста не существует', 409
-        
-    def put(self, id):
-            post_to_update = Post.query.filter_by(pid=id).first()
-            content = request.json
-
-            if post_to_update:
-                post_to_update.content = content['content']
-                db.session.add(post_to_update)
-                db.session.commit()
-                return 'Пост изменен', 200
-            return 'Такого поста не существует', 409  
-
-
 
 class PostsData(Resource):
     def get(self, username):
@@ -175,10 +155,7 @@ class FinanceData(Resource):
         pass
 
 
-class PostCreateChangeDelete(Resource):
-    def post(self, pid):
-        pass
-
+class PostChangeDelete(Resource):
     def delete(self, pid):
             post_to_delete = Post.query.filter_by(pid=pid).first()
             if post_to_delete:
@@ -196,4 +173,14 @@ class PostCreateChangeDelete(Resource):
                 db.session.add(post_to_update)
                 db.session.commit()
                 return 'Пост изменен', 200
-            return 'Такого поста не существует', 409  
+            return 'Такого поста не существует', 409
+
+
+class PostCreate(Resource):
+    def post(self):
+        post = Post(
+            content = request.json['content'],
+            user_id = request.json['user_id'],
+        )
+        db.session.add(post)
+        db.session.commit()
