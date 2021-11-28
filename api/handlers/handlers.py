@@ -2,8 +2,10 @@ import logging
 from datetime import datetime
 from flask import g, request, jsonify
 from flask_restful import Resource
+from marshmallow.utils import ensure_text_type
 from api.yahoo.finance import Stock
 from pprint import pprint
+import json
 
 import api.errors.errors as error
 
@@ -29,12 +31,11 @@ class Login(Resource):
 
 
 class Index(Resource):
-    @staticmethod
-    def get():
+    def get(self):
         content = {
-            'Проект': 'Проект подготовлен для Hack&Change 2021',
-            'Трэк': 'Мобильная разработка',
-            'Разработчики API': 'M.A.N.G.A',
+            'For': 'Hack&Change 2021',
+            'Track': 'Mobile Track',
+            'Developers': 'M.A.N.G.A',
             'URL': 'https://github.com/M-A-N-G-A',
         }
         return content
