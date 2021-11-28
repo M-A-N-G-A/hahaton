@@ -17,6 +17,7 @@ class UserSchema(Schema):
 class PostSchema(Schema):
 
     # Schema parameters.
+    pid = fields.Int()
     content = fields.Str()
     media = fields.Str()
     date_posted = fields.DateTime("iso")	 
@@ -34,6 +35,7 @@ class RecomendationsSchema(Schema):
 class CommentsSchema(Schema):
 
     # Schema parameters.
+    cid = fields.Int()
     user_id = fields.Int()
     pid = fields.Int()
     content = fields.Str()
